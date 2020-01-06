@@ -27,6 +27,7 @@ class App extends Component {
   state = {
     famille,
     agePlus: 2,
+    isShow: false,
   };
 
   handleClick = () => {
@@ -41,10 +42,21 @@ class App extends Component {
     famille.membre1.nom = nom;
     this.setState({famille})
   };
+  handleShowDetails = () => {
+    const isShow = !this.state.isShow;
+    this.setState({isShow});
+  };
 
   render(){
     const { titre } = this.props;
-    const { famille } = this.state;
+    const { famille, isShow } = this.state;
+    
+    let description = null;
+    
+    if (isShow) {
+      description = <strong>Je suis la mère</strong>;
+    }
+    
     return (
       <div className="App">
         <h1>{ titre }</h1>
@@ -65,7 +77,10 @@ class App extends Component {
           age={famille.membre4.age} 
           nom={famille.membre4.nom}
         >
-          <strong>Je suis la mère</strong>
+          {description}
+          {
+            isShow ? <button onClick={this.handleShowDetails}>Cacher</button> : <button onClick={this.handleShowDetails}>Montrer</button>
+          }
         </Membre>
         <Button
           veillir={this.handleClick}
